@@ -1,46 +1,47 @@
 from random import randint 
 
-secret_number = randint(1, 100) 
-attempts = 0 
-main_attempts = 0 # Счётчик для попыток когда игрок угадывает число.
-lst = [] #Список для хранения попыток пользователя.
+first, second =  map(int, input("Enter from which number to which number was the hidden number: ").split())
+secret_number = randint(first, second) #Пользователь сам может выбирать диапазон чисел в котором будет генерироваться загаданное число.
+print("What number did I make a wish for?")
+attempts = 0 #Счётчик попыток за одит сеанс игры пользователя.
+common_attempts = 0 #Счётчик общего числа попыток.
+main_attempts = 0 # Счётчик попыток когда игрок угадывает число.
+
 
 while True:
-    user_number = int(input())
-
+    user_number = int(input("I think it's the number: "))
     if user_number == secret_number:
-        print("You're guess!")
+        print("Yes, you're guess!")
 
-        attempts += 1 
-        lst.append(1)
+        attempts += 1 #Обновление счётчика попыток за один сеанс игры пользователя.
+        common_attempts += 1 #Обновление счётчика общих попыток.
         main_attempts += 1 #Обновление счётчика для попыток когда игрок угадывает число.
 
-        if attempts == 0:
-            print("\nAnd you guessed right on the first attempt. ")
+        if attempts == 1:
+            print("\nAnd you guessed right on the first attempt.")
         else:    
             print(f"\nThe number attempts is {attempts}.")
         
-        if main_attempts >= 2: #Если пользователь захочет продолжить игру, то будет высчитано среднее колличесиво его попыток.
-            average_of_attempts = round(sum(lst) / main_attempts, 1)
-            print(f"\nThe average number of attempts is {average_of_attempts}.")
+        if main_attempts >= 2:
+            response = input("Do you want to know your average number of attempts? ('yes' or 'no') ")
+            if  response == "yes":
+                average_of_attempts = round(common_attempts / main_attempts, 1)
+                print(f"\nThe average number of attempts is {average_of_attempts}.")
+            else:
+                print("\nok")
 
         answer= input("\nDo you wanna continue?('yes' or 'no') ")
-
         if answer == "yes":
-            secret_number = randint(1, 100)
-            user_number = 0 
-            attempts = 0
-            continue
+            secret_number = randint(first, second)
+            attempts = 0 
         else:
             break
     elif user_number > secret_number:
-        print("Your number is bigger then guess number.")
+        print("No, your number is bigger then guess number.")
         attempts += 1
-        lst.append(1) 
+        common_attempts += 1 
+
     else:
-        print("Your number is lower then guess number.")
+        print("No, your number is lower then guess number.")
         attempts += 1 
-        lst.append(1)
-
-
-
+        common_attempts += 1 
